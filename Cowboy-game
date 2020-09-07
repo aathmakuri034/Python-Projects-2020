@@ -1,0 +1,89 @@
+# Need to establish reload before shoot
+import sys
+import random as rnd
+
+loop = True
+print("Welcome to the cowboy game!")
+compCount = 0  # amount of times computer won
+playCount = 0  # amount of times
+pReload = 0
+
+
+# 1 is Shield, 2 is Shoot, and 3 is Reload
+def compMove():
+    rnd_num = rnd.randint(1, 4)
+    global compCount
+    if compCount == 0:
+        compCount += 1
+        return 3
+
+    compCount += 1
+
+    if rnd_num == 1:
+        return 1
+    elif rnd_num == 2:
+        return 2
+    else:
+        return 3
+
+
+def playMove():
+    global pReload
+    pm = input("Choose your move cowboy!(1-Shield, 2-Shoot, 3-Reload): ")
+    if pm == 3:
+        pReload += 1
+    if pm == 2 and pReload == 0:
+        print("You do not have any bullets to shoot\nYou must reload your gun to shoot your gun")
+        sys.exit()
+
+    return pm
+
+
+# 1 is Shield, 2 is Shoot, and 3 is Reload
+def whoWins(pMove, cMove):
+    if (pMove == 2) and (cMove == 3):
+        print("Player Wins")
+        return False
+    elif (cMove == 2) and (pMove == 3):
+        print("Computer Wins")
+        return False
+    elif (cMove == 2) and (pMove == 2):
+        print("You both shot each other!\n You both lose")
+        return False
+    else:
+        print("Tie keep going")
+        return True
+
+
+def playAgain(plp):
+    if plp == 1:
+        global compCount
+        global playCount
+        compCount = 0
+        playCount = 0
+        return True
+    elif plp == 2:
+        return False
+    else:
+        print("Error. Try again")
+        playAgain(plp)
+
+
+# 1 is Shield, 2 is Shoot, and 3 is Reload
+while loop:
+    pMove = playMove()
+    cMove = compMove()
+
+    if cMove == 1:
+        print("The computer picked Shield")
+    elif cMove == 2:
+        print("The computer picked Shoot")
+    else:
+        print("The computer picked Reload")
+    if not whoWins(pMove, cMove):
+        pl = input("Would you like to play again? (1-yes, 2-no): ")
+        print("\n")
+        if not playAgain(pl):
+            print("The player won " + str(playCount + 1) + " time(s) and the computer won " + str(
+                compCount + 1) + " time(s)")
+            loop = False
