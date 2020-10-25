@@ -1,0 +1,41 @@
+import random as rnd
+
+print("Welcome to the Rock, Paper, Scissors game")
+
+
+def compPick():
+    _int_ = rnd.randint(1, 3)
+
+    if _int_ == 1:
+        return "Rock"
+    elif _int_ == 2:
+        return "Scissor"
+    elif _int_ == 3:
+        return "Paper"
+    else:
+        compPick()
+
+
+def whoWins(phand, chand):
+    if (phand == "Rock" and chand == "Scissor") or (phand == "Scissor" and chand == "Paper") or (
+            phand == "Paper" and chand == "Rock"):
+        return "Player wins"
+
+    if (chand == "Rock" and phand == "Scissor") or (chand == "Scissor" and phand == "Paper") or (
+            chand == "Paper" and phand == "Rock"):
+        return "Computer wins"
+
+
+loop = True
+
+while loop:
+    phand = input("Pick one (Rock, Paper, Scissor): ")
+    chand = compPick()
+    print("The computer picked " + chand)
+    if phand != chand:
+        print(whoWins(phand, chand))
+        again = input("Would you like to play again(yes/no): ")
+        if again == "no":
+            print("OK Goodbye")
+            loop = False
+
